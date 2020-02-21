@@ -1,0 +1,122 @@
+*{box-sizing: border-box;}
+
+
+html,body{
+    margin: 0;
+}
+.content{
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+h1{
+    text-align: center;
+    margin-bottom:10px;
+    font-family: 'cookieregular' ;
+    font-size: 72px;
+    background: linear-gradient(#fae9e7,#faafa0,#ffe489,#cedd81,#b06d81);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+#add-new-to-do{
+    background-color: #f5f3f4;
+    padding-left: 30px;
+    height:30px;
+    width: 100%;
+    border:1px solid #ece2dd;
+    border-radius: 5px 5px 0 0;
+}
+#add-new-to-do:focus{
+    outline: none;
+    background-color: #ece2dd;
+}
+ul{
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+li{
+    font-size: 18px;
+    padding: 5px 5px 5px 30px;
+    list-style: none;
+    background-color: #f5f3f4;
+    border: 1px solid #ece2dd;
+}
+li:hover{
+    background-color: #ece2dd;
+}
+.smth{
+    width: 100%;
+    background-color: #f5f3f4;
+    border: 1px solid #ece2dd;
+    border-radius: 0 0 5px 5px;
+    padding: 5px;
+}
+#left-to-do{
+    font-size: 0.8em;
+}
+button:focus{
+    outline: none;
+}
+#smth-clear-complited{
+    padding: 0;
+    border: none;
+    float: right;
+}
+#smth-clear-complited:hover{
+    transform: translateY(0.5px);
+}
+#smth-clear-complited:active{
+    transform: translateY(0px);
+}
+.btn-group-down{
+    background-color: f5f3f4;
+    border:1px solid black;
+    color: black;
+}
+
+.green{
+    margin-left: 30px;
+    border-color: #4CAF50;
+    color: #4CAF50;
+}
+.green:hover{
+    background-color: #4CAF50;
+    color: white;
+}
+.yellow{
+    border-color: #ff9800;
+    color: #ff9800;
+}
+.yellow:hover{
+    background-color: #ff9800;
+    color: white;
+}
+.red{
+    border-color: #f44336;
+    color: #f44336;
+}
+.red:hover{
+    background-color: #f44336;
+    color: white;
+}
+
+.complited{
+    color: #a19b99;
+    text-decoration-line: line-through;
+}
+/*if li not hovered display:none;
+also change background color
+just like li hovered bgclr
+*/
+.delete-item{
+    background-color: #f5f3f4;
+    display: inline-block;
+    float: right;
+    font-size: 0.8em;
+    border: none;
+}
+.delete-item:hover{
+    transform: translateY(-0.5px);
+    border-bottom: 1px solid grey;
+}
