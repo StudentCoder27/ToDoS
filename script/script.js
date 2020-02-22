@@ -1,47 +1,57 @@
 document.addEventListener("DOMContentLoaded",()=>{
 
-    var data = [{
-        content : "TEsT COMPONEnT",
-        complited : true,
-        id : 0
-    },
-    {
-        content : "TEsT FALSE",
-        complited : false,
-        id: 1
-    }
-    ];
+    var data = [];
 
     var deleteById = (id) => {
-        for(let element of data)
-        {
-            if(element.id == id)
+        data.forEach((value,index,array) =>{
+            if(typeof(value) === 'undefined')
+            {}
+            else if(value.id == id)
             {
-                delete element;
-                console.log(`${id} deleted`);
+                delete array[index];
+                console.log(`${id} deleted ${array}` );
             }
-        } 
+        });
     };
 
     var toggleComplitedById = (id) => {
-        for(let element of data)
-        {
-            if(element.id == id)
-            {
-                if(element.complited){
-                    element.complited = false;
-                    console.log(`${id} toggled`);
-                    return false;
-                }else
+        data.forEach((element,index,array)=>{
+                if(typeof(element) === 'undefined')
                 {
-                    console.log(`${id} toggled`);
-                    element.complited = true;
-                    return true;
+                    array.splice(index,index);
+                }else if(element.id == id)
+                {
+                    if(element.complited === true){
+                        element.complited = false;
+                        return element.complited;
+                    }else
+                    {
+                        
+                        element.complited = true;
+                        return element.complited;
+                    }
+                    
                 }
-                
-            }
-        } 
+        } );
     };
+
+    var span = document.getElementById("left-to-do"); 
+    var tasksLeft = () => {
+        var num = 0; 
+        if(data.length !== 0){
+            for(let element of data)
+            {
+                if(typeof(element) === 'undefined')
+                {
+                    continue;
+                }else if(element.complited === false)
+                {
+                    num++;
+                }
+            } 
+        }
+        span.innerHTML = `${num} left`;
+    }
 
     var listOfButton = document.querySelectorAll(".list>ul>li>button");
     var listOfLi = document.querySelectorAll(".list>ul>li");
@@ -53,18 +63,22 @@ document.addEventListener("DOMContentLoaded",()=>{
             deleteById(thisLi.id);
             thisUl = thisLi.parentNode;
             thisUl.removeChild(thisLi); 
+            tasksLeft();
         })
     };
     
     var clickLi = (element) => {
         element.addEventListener("click",(e) => {
-            if(toggleComplitedById(e.target.id))
+            if(!toggleComplitedById(e.target.id))
             {
+                console.log("why its not here?");
                 element.className = "complited";
             }else
             {
+                console.log("but here?");
                 element.className = "";
             }
+            tasksLeft();
         },false);
     };
     listOfLi.forEach(clickLi);
@@ -73,6 +87,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     var ul = document.querySelector(".list>ul");
 
     data.forEach((element)=>{
+        if(data.length !== 0){
         var button = document.createElement("button");
             button.className = "delete-item";
             button.innerHTML = "&#x2716;";
@@ -88,6 +103,8 @@ document.addEventListener("DOMContentLoaded",()=>{
             }
             li.appendChild(button);
             ul.appendChild(li);
+            tasksLeft();
+        }
     });
 
     
@@ -99,9 +116,17 @@ document.addEventListener("DOMContentLoaded",()=>{
                 content : e.target.value,
                 complited : false,
                 id: (()=>{
+                    if(typeof(data[data.length-1]) === 'undefined')
+                    {
+                        return 0;
+                    }
+                    if(data.length === 0){
+                        
+                        return 0;
+                    }else{
                     lastElement = data[data.length-1];
                     return (lastElement.id + 1)
-
+                    }
                 })()
             });
             var button = document.createElement("button");
@@ -115,9 +140,84 @@ document.addEventListener("DOMContentLoaded",()=>{
             li.textContent = e.target.value;
             li.appendChild(button);
             ul.appendChild(li);
+            tasksLeft();
+
+            e.target.value = "";
         }
     });            
     
+    document.getElementById("smth-clear-complited").addEventListener("click",()=>{
+        document.querySelectorAll(".complited").forEach((value)=>{
+            deleteById(value.id);
+            ul.removeChild(value)
+        });
+    });
+
+    document.getElementById("smth-complited").addEventListener('click',()=>{
+        ul.innerHTML = "";
+        data.forEach((value)=>{
+            if(value.complited){
+                var button = document.createElement("button");
+                button.className = "delete-item";
+                button.innerHTML = "&#x2716;";
+                deleteListener(button);
+
+                var li = document.createElement("li");
+                clickLi(li);
+                li.textContent = value.content;
+                li.id = value.id;
+                li.className = "complited";
+                
+                li.appendChild(button);
+                ul.appendChild(li);
+            }
+        });
+    });
+
+    document.getElementById("smth-active").addEventListener('click',()=>{
+        ul.innerHTML = "";
+        data.forEach((value)=>{
+            if(!value.complited){
+                var button = document.createElement("button");
+                button.className = "delete-item";
+                button.innerHTML = "&#x2716;";
+                deleteListener(button);
+
+                var li = document.createElement("li");
+                clickLi(li);
+                li.textContent = value.content;
+                li.id = value.id;
+                li.className = "";
+                
+                li.appendChild(button);
+                ul.appendChild(li);
+            }
+        });
+    });
     
+    document.getElementById("smth-all").addEventListener('click',()=>{
+        ul.innerHTML = "";
+        data.forEach((value)=>{
+            
+                var button = document.createElement("button");
+                button.className = "delete-item";
+                button.innerHTML = "&#x2716;";
+                deleteListener(button);
+
+                var li = document.createElement("li");
+                clickLi(li);
+                li.textContent = value.content;
+                li.id = value.id;
+                if(value.complited === true)
+                {
+                    li.className = "complited";
+                }
+                
+                li.appendChild(button);
+                ul.appendChild(li);
+            }
+        );
+    });
+
 });
 
