@@ -110,7 +110,7 @@ also change background color
 just like li hovered bgclr
 */
 .delete-item{
-    background-color: #f5f3f4;
+    background-color: rgba(0, 0, 0, 0.0);
     display: inline-block;
     float: right;
     font-size: 0.8em;

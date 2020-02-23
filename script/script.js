@@ -2,6 +2,51 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     var data = [];
 
+    var saveToLocalStorage = () => {
+        localStorage.removeItem("data");
+        var newData = data.filter((element)=>{
+            return element != null && typeof element !== "undefined";
+        });
+        localStorage.setItem("data",JSON.stringify(newData));
+    }
+
+    var getDataFromLocalStorage = () => {
+        var localData = JSON.parse(localStorage.getItem("data"));
+            if(localData[0] == null || typeof localData[0] == "undefined"){
+
+                localStorage.setItem("data",JSON.stringify(
+                    {
+                        content: "WELCOME IN MY APP",
+                        complited: false,
+                        id: 0    
+                    }
+                    
+                ));
+                data.push(
+                    {
+                        content: "WELCOME IN MY APP",
+                        complited: false,
+                        id: 0
+                    });
+            }else{
+                localData.forEach((element)=>{
+                    if(element != null){
+                        if(typeof(element) !== 'undefined')
+                        {
+                            data.push(
+                                {
+                                    content: element.content,
+                                    complited: element.complited,
+                                    id: element.id
+                                }
+                            );
+                        }
+                    }
+                });
+            }
+    }
+    getDataFromLocalStorage();//new
+
     var deleteById = (id) => {
         data.forEach((value,index,array) =>{
             if(typeof(value) === 'undefined')
@@ -12,6 +57,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                 console.log(`${id} deleted ${array}` );
             }
         });
+        saveToLocalStorage();//new
     };
 
     var toggleComplitedById = (id) => {
@@ -23,11 +69,13 @@ document.addEventListener("DOMContentLoaded",()=>{
                 {
                     if(element.complited === true){
                         element.complited = false;
+                        saveToLocalStorage();//new
                         return element.complited;
                     }else
                     {
                         
                         element.complited = true;
+                        saveToLocalStorage();//new
                         return element.complited;
                     }
                     
@@ -142,6 +190,7 @@ document.addEventListener("DOMContentLoaded",()=>{
             ul.appendChild(li);
             tasksLeft();
 
+            saveToLocalStorage();//new
             e.target.value = "";
         }
     });            
